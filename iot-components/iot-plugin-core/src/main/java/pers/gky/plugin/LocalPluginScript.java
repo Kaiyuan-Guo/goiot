@@ -1,6 +1,9 @@
-package pers.gky.plugin;/**
+package pers.gky.plugin;
+
+/**
  * @author gky
  * @date 2024/05/04 11:00
  * @description
- */public class LocalPluginScript {
+ */
+public class LocalPluginScript {
 }

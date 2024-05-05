@@ -7,10 +7,13 @@
  * | Author: xw2sy@163.com
  * +----------------------------------------------------------------------
  */
-package cc.iotkit.common.utils;
+package pers.gky.common.utils;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+/**
+ * @author Administrator
+ */
 public class ThreadUtil {
 
     public static ScheduledThreadPoolExecutor newScheduled(int poolSize, String threadName) {

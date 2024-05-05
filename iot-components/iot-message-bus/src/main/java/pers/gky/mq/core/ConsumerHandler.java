@@ -1,6 +1,10 @@
-package pers.gky.mq.core;/**
+package pers.gky.mq.core;
+
+/**
  * @author gky
  * @date 2024/05/01 17:00
  * @description
- */public interface ConsumerHandler {
+ */
+public interface ConsumerHandler<T> {
+    void handler(T msg);
 }
