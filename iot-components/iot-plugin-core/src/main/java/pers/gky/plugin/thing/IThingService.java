@@ -21,6 +21,8 @@ public interface IThingService {
      */
     ActionResult post(IDeviceAction action);
 
+    // ActionResult post(String pluginId, IDeviceAction action);
+
     /**
      * 获取产品信息
      *

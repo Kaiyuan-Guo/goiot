@@ -1,7 +1,5 @@
 package pers.gky.manager.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 import pers.gky.manager.model.entity.DeviceGroupMapping;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -11,10 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author gky
- * @since 2024-05-05
+ * @since 2024-05-06
  */
-@Mapper
-@Repository
 public interface DeviceGroupMappingMapper extends BaseMapper<DeviceGroupMapping> {
 
 }

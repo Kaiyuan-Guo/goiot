@@ -15,17 +15,40 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pers.gky</groupId>
+            <artifactId>iot-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pers.gky</groupId>
+            <artifactId>iot-message-bus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pers.gky</groupId>
+            <artifactId>iot-plugin-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pers.gky</groupId>
+            <artifactId>mqtt-plugin</artifactId>
         </dependency>
 
         <dependency>
@@ -46,6 +69,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author gky
- * @since 2024-05-05
+ * @since 2024-05-06
  */
 public interface IDeviceGroupMappingService extends IService<DeviceGroupMapping> {
-
+    DeviceGroupMapping findByDeviceIdAndGroupId(String deviceId, String groupId);
 }
