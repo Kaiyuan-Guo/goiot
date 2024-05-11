@@ -13,6 +13,7 @@ public enum ErrCode {
     /**
      * 系统通用异常段
      */
+    PARAMS_EXCEPTION(100001, "参数异常"),
     SYSTEM_EXCEPTION(100002, "系统异常"),
     UNKNOWN_EXCEPTION(100003, "未知异常"),
     SEND_DESTINATION_NOT_FOUND(300007, "发送目标不存在"),
@@ -20,6 +21,7 @@ public enum ErrCode {
     /**
      * 业务通用异常段
      */
+    PRODUCT_NOT_FOUND(500005, "产品不存在"),
     DEVICE_NOT_FOUND(500006, "设备不存在");
 
     private final int code;

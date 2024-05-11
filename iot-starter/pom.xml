@@ -50,6 +50,10 @@
             <groupId>pers.gky</groupId>
             <artifactId>mqtt-plugin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pers.gky</groupId>
+            <artifactId>iot-data-serviceImpl-rdb</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

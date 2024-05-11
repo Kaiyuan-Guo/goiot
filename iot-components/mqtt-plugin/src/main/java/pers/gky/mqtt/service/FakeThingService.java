@@ -3,7 +3,6 @@ package pers.gky.mqtt.service;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import pers.gky.plugin.thing.IThingService;
 import pers.gky.plugin.thing.actions.ActionResult;
 import pers.gky.plugin.thing.actions.IDeviceAction;
@@ -19,7 +18,6 @@ import java.util.Map;
  * @author sjg
  */
 @Slf4j
-@Service
 public class FakeThingService implements IThingService {
 
     /**
@@ -44,13 +42,11 @@ public class FakeThingService implements IThingService {
         }
     }
 
-
     @Override
     public ActionResult post(IDeviceAction action) {
         log.info("post action:{}", action);
         return ActionResult.builder().code(0).build();
     }
-
 
 
     @Override

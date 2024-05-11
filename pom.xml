@@ -18,6 +18,7 @@
 
     <modules>
         <module>iot-components</module>
+        <module>iot-dao</module>
         <module>iot-manager</module>
         <module>iot-starter</module>
     </modules>
@@ -163,6 +164,21 @@
             <dependency>
                 <groupId>pers.gky</groupId>
                 <artifactId>mqtt-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pers.gky</groupId>
+                <artifactId>iot-data-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pers.gky</groupId>
+                <artifactId>iot-data-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pers.gky</groupId>
+                <artifactId>iot-data-serviceImpl-rdb</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

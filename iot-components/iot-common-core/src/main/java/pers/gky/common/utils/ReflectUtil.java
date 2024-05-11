@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 反射工具
+ */
 public class ReflectUtil {
 
     @SneakyThrows
@@ -42,7 +45,7 @@ public class ReflectUtil {
     public static Map<String, ?> toMap(Object bean) {
         Map<String, Object> map = new HashMap<>();
         new BeanMap(bean).forEach((key, value) -> {
-            if (key.equals("class")) {
+            if ("class".equals(key)) {
                 return;
             }
             String field = key.toString();

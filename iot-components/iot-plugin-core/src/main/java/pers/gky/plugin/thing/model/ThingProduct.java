@@ -22,8 +22,6 @@ public class ThingProduct {
 
     private String name;
 
-    private String category;
-
     private Integer nodeType;
 
 }

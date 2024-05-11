@@ -18,7 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class DeviceTopology extends AbstractAction {
     /**
-     * 付设备下的子设备列表
+     * 父设备下的子设备列表
      */
     private List<String> subDevices;
 
