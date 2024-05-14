@@ -1,12 +1,15 @@
 package pers.gky.data.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.linpeilie.annotations.AutoMapper;
+import io.github.linpeilie.annotations.AutoMapping;
+import io.github.linpeilie.annotations.ReverseAutoMapping;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import pers.gky.model.device.DeviceInfoDTO;
 
 import java.io.Serializable;
 
@@ -22,6 +25,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("device_info")
+@AutoMapper(target = DeviceInfoDTO.class)
 public class DeviceInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +33,7 @@ public class DeviceInfo implements Serializable {
     /**
      * 设备信息id
      */
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id")
     private String id;
 
     /**
@@ -102,6 +106,8 @@ public class DeviceInfo implements Serializable {
      * 设备状态
      */
     @TableField("state")
+    @AutoMapping(ignore = true)
+    @ReverseAutoMapping(ignore = true)
     private String state;
 
     /**

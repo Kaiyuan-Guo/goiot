@@ -1,12 +1,13 @@
 package pers.gky.data.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import pers.gky.model.device.DeviceGroupDTO;
 
 import java.io.Serializable;
 
@@ -22,6 +23,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("device_group")
+@AutoMapper(target = DeviceGroupDTO.class)
 public class DeviceGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +31,7 @@ public class DeviceGroup implements Serializable {
     /**
      * 设备组id
      */
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id")
     private String id;
 
     /**

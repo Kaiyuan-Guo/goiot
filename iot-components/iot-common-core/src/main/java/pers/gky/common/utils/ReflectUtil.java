@@ -25,31 +25,28 @@ import java.util.Map;
 public class ReflectUtil {
 
     @SneakyThrows
-    public static <T> T copyNoNulls(T from, T to, String... fields) {
+    public static <T> void copyNoNulls(T from, T to, String... fields) {
         List<String> fieldList = Arrays.asList(fields);
-
         Map<String, Object> map = new HashMap<>();
-        new BeanMap(from).forEach((key, value) -> {
-            if (value == null) {
-                return;
-            }
-            String field = key.toString();
-            if (fields.length == 0 || fieldList.contains(field)) {
-                map.put(field, value);
+        (new BeanMap(from)).forEach((key, value) -> {
+            if (value != null) {
+                String field = key.toString();
+                if (fields.length == 0 || fieldList.contains(field)) {
+                    map.put(field, value);
+                }
+
             }
         });
         BeanUtils.populate(to, map);
-        return to;
     }
 
     public static Map<String, ?> toMap(Object bean) {
         Map<String, Object> map = new HashMap<>();
-        new BeanMap(bean).forEach((key, value) -> {
-            if ("class".equals(key)) {
-                return;
+        (new BeanMap(bean)).forEach((key, value) -> {
+            if (!"class".equals(key)) {
+                String field = key.toString();
+                map.put(field, value);
             }
-            String field = key.toString();
-            map.put(field, value);
         });
         return map;
     }

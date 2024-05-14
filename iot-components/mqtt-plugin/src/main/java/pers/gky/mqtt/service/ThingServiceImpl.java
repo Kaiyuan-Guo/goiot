@@ -13,11 +13,13 @@ import pers.gky.common.utils.UniqueIdUtil;
 import pers.gky.data.manager.IDeviceInfoData;
 import pers.gky.data.manager.IProductData;
 import pers.gky.model.device.DeviceInfoDTO;
+import pers.gky.model.product.ProductDTO;
 import pers.gky.mq.core.MqProducer;
 import pers.gky.mq.thing.ThingModelMessage;
 import pers.gky.plugin.thing.IThingService;
 import pers.gky.plugin.thing.actions.ActionResult;
 import pers.gky.plugin.thing.actions.ActionType;
+import pers.gky.plugin.thing.actions.DeviceState;
 import pers.gky.plugin.thing.actions.IDeviceAction;
 import pers.gky.plugin.thing.actions.up.*;
 import pers.gky.plugin.thing.model.ThingDevice;
@@ -44,27 +46,6 @@ public class ThingServiceImpl implements IThingService {
     @Autowired
     private MqProducer<ThingModelMessage> producer;
 
-    /**
-     * 添加测试产品
-     */
-    private static final Map<String, String> PRODUCTS = Map.of(
-            "hbtgIA0SuVw9lxjB", "xdkKUymrEGSCYWswqCvSPyRSFvH5j7CU",
-            "Rf4QSjbm65X45753", "xdkKUymrEGSCYWswqCvSPyRSFvH5j7CU",
-            "cGCrkK7Ex4FESAwe", "xdkKUymrEGSCYWswqCvSPyRSFvH5j7CU"
-    );
-
-    /**
-     * 添加测试设备
-     */
-    private static final Map<String, String> DEVICES = new HashMap<>();
-
-    static {
-        for (int i = 0; i < 10; i++) {
-            DEVICES.put("TEST:GW:" + StrUtil.fillAfter(i + "", '0', 6), "hbtgIA0SuVw9lxjB");
-            DEVICES.put("TEST_SW_" + StrUtil.fillAfter(i + "", '0', 6), "Rf4QSjbm65X45753");
-            DEVICES.put("TEST_SC_" + StrUtil.fillAfter(i + "", '0', 6), "cGCrkK7Ex4FESAwe");
-        }
-    }
 
     @Override
     public ActionResult post(IDeviceAction action) {
@@ -84,14 +65,7 @@ public class ThingServiceImpl implements IThingService {
                     break;
                 case STATE_CHANGE:
                     // 状态更改
-                    publishMessage(
-                            device, action,
-                            ThingModelMessage.builder()
-                                    .type(ThingModelMessage.TYPE_STATE)
-                                    .identifier(((DeviceStateChange) action).getState().getState())
-                                    .time(System.currentTimeMillis())
-                                    .build()
-                    );
+                    deviceStateChange(device, (DeviceStateChange) action);
                     break;
                 case PROPERTY_REPORT:
                     // 属性上报
@@ -139,7 +113,7 @@ public class ThingServiceImpl implements IThingService {
 
     @Override
     public ThingProduct getProduct(String pk) {
-        /*try {
+        try {
             ProductDTO product = productData.findByProductKey(pk);
             if (product == null) {
                 return null;
@@ -153,16 +127,12 @@ public class ThingServiceImpl implements IThingService {
         } catch (Throwable e) {
             log.error("get product error", e);
             return null;
-        }*/
-        return ThingProduct.builder()
-                .productKey(pk)
-                .productSecret(PRODUCTS.get(pk))
-                .build();
+        }
     }
 
     @Override
     public ThingDevice getDevice(String deviceName) {
-        /*DeviceInfoDTO deviceInfo = getDeviceInfo(deviceName);
+        DeviceInfoDTO deviceInfo = getDeviceInfo(deviceName);
         if (deviceInfo == null) {
             return null;
         }
@@ -172,10 +142,6 @@ public class ThingServiceImpl implements IThingService {
                 .model(deviceInfo.getModel())
                 .productKey(deviceInfo.getProductKey())
                 .secret(deviceInfo.getSecret())
-                .build();*/
-        return ThingDevice.builder()
-                .productKey(DEVICES.get(deviceName))
-                .deviceName(deviceName)
                 .build();
     }
 
@@ -190,10 +156,14 @@ public class ThingServiceImpl implements IThingService {
 
     @Override
     public Map<String, ?> getProperty(String deviceName) {
-        return null;
+        DeviceInfoDTO device = getDeviceInfo(deviceName);
+        if (device == null) {
+            return new HashMap<>(0);
+        }
+        return device.getProperty();
     }
 
-    private String registerDevice(DeviceInfoDTO device, DeviceRegister register, String parentId) {
+    private void registerDevice(DeviceInfoDTO device, DeviceRegister register, String parentId) {
         String productKey = register.getProductKey();
         // 指定了pk需验证
         if (StrUtil.isNotBlank(productKey)) {
@@ -209,7 +179,6 @@ public class ThingServiceImpl implements IThingService {
                 device.setParentId(parentId);
                 deviceInfoData.save(device);
             }
-            return device.getDeviceId();
         } else {
             // 不存在，注册新设备
             DeviceInfoDTO deviceInfo = new DeviceInfoDTO();
@@ -235,8 +204,32 @@ public class ThingServiceImpl implements IThingService {
                             .time(System.currentTimeMillis())
                             .build()
             );
-            return deviceInfo.getDeviceId();
         }
+    }
+
+    /**
+     * 设备状态更改
+     */
+    private void deviceStateChange(DeviceInfoDTO device, DeviceStateChange action) {
+        DeviceState state = action.getState();
+        if(state.equals(DeviceState.ONLINE)){
+            device.getState().setOnline(true);
+            device.getState().setOnlineTime(System.currentTimeMillis());
+        }else {
+            device.getState().setOnline(false);
+            device.getState().setOfflineTime(System.currentTimeMillis());
+        }
+        deviceInfoData.save(device);
+
+        log.info("device state change:{}",action.getState());
+        publishMessage(
+                device, action,
+                ThingModelMessage.builder()
+                        .type(ThingModelMessage.TYPE_STATE)
+                        .identifier(action.getState().getState())
+                        .time(System.currentTimeMillis())
+                        .build()
+        );
     }
 
     private void deviceTopologyUpdate(DeviceInfoDTO device, DeviceTopology topology) {
